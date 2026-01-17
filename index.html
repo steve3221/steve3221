@@ -1,7 +1,192 @@
-<html>
-  <body>
-    <h1>
-      welcome to the home page of steve3221
-    <h1>
-  <body>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王一帆 | Bio-AI Nexus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --neon-green: #00ff41; 
+            --bio-blue: #00d4ff;
+            --matrix-bg: #0d0208;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Consolas', monospace; }
+        body { background: var(--matrix-bg); color: #fff; overflow-x: hidden; }
+
+        /* 数字雨背景 */
+        #matrix-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.2;
+        }
+
+        .main-content { position: relative; z-index: 10; max-width: 1100px; margin: 0 auto; padding: 50px 20px; }
+
+        /* 循环打字机 */
+        header { text-align: center; margin-bottom: 60px; height: 180px; }
+        .type-container {
+            font-size: 3.5rem; color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green);
+            font-weight: bold; min-height: 80px;
+        }
+        .cursor {
+            display: inline-block; width: 10px; background-color: var(--neon-green);
+            margin-left: 5px; animation: blink 0.7s infinite;
+        }
+
+        /* 保研动态横幅 */
+        .admission-box {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px dashed var(--bio-blue);
+            padding: 25px; border-radius: 8px; text-align: center;
+            margin: 40px 0; cursor: pointer; transition: 0.4s;
+        }
+        .admission-box:hover { background: rgba(0, 212, 255, 0.15); box-shadow: 0 0 30px rgba(0,212,255,0.3); }
+
+        /* 3D 卡片 */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card {
+            background: rgba(0, 0, 0, 0.85); border: 1px solid rgba(0, 255, 65, 0.2);
+            padding: 30px; border-radius: 15px; transition: 0.1s; transform-style: preserve-3d;
+            backdrop-filter: blur(8px);
+        }
+        .card:hover { border-color: var(--neon-green); }
+
+        h2 { color: var(--neon-green); margin-bottom: 20px; font-size: 1.3rem; }
+        .list-item { padding: 12px 0; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; }
+        .list-item b { color: var(--bio-blue); display: block; margin-bottom: 4px; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        footer { text-align: center; margin-top: 80px; padding: 40px; color: #333; font-size: 0.8rem; }
+
+        @media (max-width: 600px) { .type-container { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="main-content">
+        <header>
+            <div class="type-container" id="typewriter"></div><span class="cursor">&nbsp;</span>
+            <p style="color: var(--bio-blue); letter-spacing: 5px; margin-top: 15px; opacity: 0.8;">
+                [ BIOLOGY × AI RESEARCHER ]
+            </p>
+        </header>
+
+        <div class="admission-box" onclick="launchConfetti()">
+            <h3 style="color: #fff;">>> 已成功保研至：中国科学院大学 - 人工智能专业</h3>
+            <p style="font-size: 0.8rem; color: var(--bio-blue); margin-top: 10px;">STATUS: ADMITTED | CLICK TO CELEBRATE</p>
+        </div>
+
+        <div class="grid">
+            <div class="card" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <h2><i class="fas fa-microchip"></i> 核心指标</h2>
+                <div class="list-item"><b>专业排名</b> 2 / 67 (Top 3%)</div>
+                <div class="list-item"><b>GPA</b> 4.27 / 5.0</div>
+                <div class="list-item"><b>高分科目</b> 生化 99 / 分子 97 / 细胞 97</div>
+            </div>
+
+            <div class="card" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <h2><i class="fas fa-flask"></i> 序列研究</h2>
+                <div class="list-item"><b>SCI 二区 (一作)</b> Applied Soil Ecology</div>
+                <div class="list-item"><b>国家级大创</b> 负责人 (根际微生物调控)</div>
+                <div class="list-item"><b>软件著作权</b> 医疗大数据自动化处理系统</div>
+            </div>
+
+            <div class="card" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                <h2><i class="fas fa-code-branch"></i> 荣誉/技能</h2>
+                <div class="list-item"><b>外文奖翻译</b> 全国二等奖</div>
+                <div class="list-item"><b>数学建模</b> 新疆赛区二等奖</div>
+                <div class="list-item"><b>技术栈</b> Python / R / 宏基因组学</div>
+            </div>
+        </div>
+
+        <footer>
+            <p>ACCESS_GRANTED: 15615961459@163.com | SHANDONG, CHINA</p>
+        </footer>
+    </div>
+
+    <script>
+        // 1. 数字雨动画 (混合 ATCG)
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const alphabet = "ATCG0101";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(13, 2, 8, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#00ff41';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 40);
+
+        // 2. 循环打字机逻辑
+        const txtElement = document.getElementById('typewriter');
+        const words = ["WANG YIFAN", "BIO-AI NEXUS", "CAS_STUDENT"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 200;
+
+        function type() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                txtElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 100;
+            } else {
+                txtElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 200;
+            }
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // 停留时间
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 500;
+            }
+            setTimeout(type, typeSpeed);
+        }
+        type();
+
+        // 3. 庆祝 & 3D 效果
+        function launchConfetti() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#00ff41', '#00d4ff'] });
+        }
+
+        function handleTilt(e, card) {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(1000px) rotateX(${y * -20}deg) rotateY(${x * 20}deg) scale3d(1.05, 1.05, 1.05)`;
+        }
+
+        function resetTilt(card) {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
